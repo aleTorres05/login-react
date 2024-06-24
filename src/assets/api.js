@@ -8,5 +8,5 @@ export default function login(user) {
       email: user.email,
       password: user.password,
     }),
-  });
+  }).then((response) => response.json());
 }

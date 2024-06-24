@@ -5,26 +5,16 @@ import clsx from "clsx";
 import { Toaster, toast } from "sonner";
 
 export default function LoginForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid, isSubmitted },
-    reset,
-    setFocus,
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   async function onSubmit(data) {
     try {
-      await login({
+      const token = await login({
         email: data.email,
         password: data.password,
       });
-      console.log(
-        await login({
-          email: data.email,
-          password: data.password,
-        })
-      );
+      localStorage.setItem("token", token.data.token);
+
       reset();
       toast.success("Logged in");
     } catch (error) {
@@ -142,7 +132,7 @@ export default function LoginForm() {
             <label htmlFor="">Password:</label>
             <input
               className=" border rounded-md h-[35px] w-[100%] mb-3"
-              type="text"
+              type="password"
               required
               {...register("password", {
                 required: { value: true, message: "Campo Requerido" },
